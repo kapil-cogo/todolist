@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To Do List</title>
+
+    <link rel="stylesheet" href="/todo.css">
+
+    <script type="text/javascript">
+      var tasks = [];
+      var count = 0;
+      var currentEditID = -1;
+
+      function doneTodo(taskid) {
+        tasks = tasks.map((t) => {
+          if (t.id === taskid) {
+            t.status = t.status === 0 ? 1 : 0;
+          }
+          return t;
+        });
+
+        showTodos();
+      }
+
+      function deleteTask(id) {
+        tasks = tasks.filter((t) => t.id != id);
+        showTodos();
+      }
+
+      function showTodos() {
+        //get element where you want to create the list
+        var todo_list = document.getElementById("todo_list");
+        //emptying the innerhtml
+        todo_list.innerHTML = "";
+        //for loop through the lists of tasks
+        tasks.forEach((task) => {
+
+            if( task.status === 0 ){
+                todo_list.innerHTML +=
+            "<p  id='task_" + task.id + "' > <input onclick = 'doneTodo(" + task.id + ")' type = 'checkbox' > <span class = 'todo_text' > " +
+            " " + task.todo + " </span> <a href='#' class = 'delete' onclick='deleteTask(" + task.id +")'>  Delete </a> <button href='#' onclick='Addtoeditbox(" + task.id +
+            ")'> Edit</button>  </p>";
+            }
+          //<p id=task_(task.id)> task.todo <a href='#' onclick='deletetask(task.id)' > Delete </a> <a href='#' onclick='editTask(task.id)'></a> </p>
+            else {
+                todo_list.innerHTML +=
+            "<p id='task_" + task.id + "' > <input class = 'todo_text' checked = 'true' onclick = 'doneTodo(" + task.id + ")' type = 'checkbox'  <span class = 'todo_text' >" +
+             " " + "<span class = 'striked'>" + task.todo +"</span>"  + "  </span> <a href='#' class = 'delete' onclick='deleteTask(" + task.id +")'>  Delete </a> <button href='#' onclick='Addtoeditbox(" + task.id +
+            ")'> Edit</button>  </p>";
+            }  
+          
+        }
+        
+        );
+      }
+
+      function Addtoeditbox(taskid) {
+        var textboxtoedit = document.getElementById("edittodo");
+        var task;
+        tasks = tasks.map((t) => {
+          if (t.id === taskid) {
+            task = t.todo;
+          }
+          return t;
+        });
+
+        textboxtoedit.value = task;
+        currentEditID = taskid;
+      }
+
+      function saveEditedTask() {
+        var taskedittodo = document.getElementById("edittodo").value;
+        tasks = tasks.map((t) => {
+          if (t.id === currentEditID) {
+            t.todo = taskedittodo;
+          }
+          return t;
+        });
+        
+        document.getElementById("edittodo").value = "";
+        showTodos();
+      }
+
+      function addTodo() {
+        var todo = document.getElementById("todo").value;
+        if (todo != "") {
+          count = count + 1;
+          tasks.push({
+            id: count,
+            todo: todo,
+            status: 0,
+          });
+          showTodos();
+        } else {
+          alert("can not have empty todo");
+        }
+      }
+    </script>
+  </head>
+  <body>
+<div class="main">
+  <div class="todo">
+    <div> 
+      <h1 class="title">TodoList</h1>
+    </div> 
+
+    <div> 
+      <input type="text" , placeholder="add todo list here" , id="todo" />
+      <button onclick="addTodo()">Add</button>
+      <input
+      type="'text"
+      ,
+      placeholder="edit any todo here"
+      ,
+      id="edittodo"
+      />
+      <button onclick="saveEditedTask()">Save</button>
+    </div>
+
+      
+
+    <div id="todo_list"></div>
+
+  </div>
+</div>
+  
+    
+  </body>
+</html>

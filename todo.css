@@ -1,0 +1,35 @@
+.main{
+    height: 100vh;
+    background-color: black;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    
+}
+.todo{
+    align-self: center;
+}
+
+.title{
+    align-items: center;
+    color: aliceblue;
+}
+
+todo_list{
+    color: aliceblue;
+}
+
+.todo_text{
+    color: white;
+}
+
+.delete{
+    color: white;
+}
+
+
+.striked{
+    text-decoration: line-through;
+    color: white;
+}
